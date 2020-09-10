@@ -1,5 +1,10 @@
-import React from "react";
+import React, { Component } from 'react';
+import GlobalStyles from 'themes/GlobalStyles';
 
-const App = () => <h1>Hello World</h1>;
+class App extends Component {
+    render() {
+        return <GlobalStyles />;
+    }
+}
 
 export default App;
