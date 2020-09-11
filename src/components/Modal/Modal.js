@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 const Modal = styled.div`
@@ -41,5 +42,9 @@ const ModalWrapper = ({ winner }) => (
         <Message makeGreen={winner}>{winner ? 'Winner' : 'Defeated'}</Message>
     </Modal>
 );
+
+ModalWrapper.propTypes = {
+    winner: PropTypes.bool.isRequired,
+};
 
 export default ModalWrapper;

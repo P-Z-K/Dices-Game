@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import PropTypes from 'prop-types';
 import Dice6 from 'assets/dices/dice-6.png';
 import Dice5 from 'assets/dices/dice-5.png';
 import Dice4 from 'assets/dices/dice-4.png';
@@ -50,5 +51,9 @@ const Dice = styled.div`
     animation: ${rotate} 50s infinite linear;
     z-index: 1000;
 `;
+
+Dice.propTypes = {
+    whichDiceNumber: PropTypes.number.isRequired,
+};
 
 export default Dice;

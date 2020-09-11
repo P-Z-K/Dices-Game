@@ -7,4 +7,4 @@ export default {
 };
 
 export const ScoreBarGreen = () => <ScorePanel />;
-export const ScoreBarRed = () => <ScorePanel red />;
+export const ScoreBarRed = () => <ScorePanel secondary />;

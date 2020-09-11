@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import RollIcon from 'assets/icons/rollDice.svg';
+import PropTypes from 'prop-types';
 import HoldIcon from 'assets/icons/hold.svg';
 
 const Button = styled.button`
@@ -26,5 +27,13 @@ const Button = styled.button`
         box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
     }
 `;
+
+Button.propTypes = {
+    hold: PropTypes.bool,
+};
+
+Button.defaultProps = {
+    hold: null,
+};
 
 export default Button;
