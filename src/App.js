@@ -191,3 +191,12 @@ class App extends Component {
 }
 
 export default App;
+
+/* 
+    @todo Need to implement restart button
+    @body Now, users in order to restart game have to reload website
+
+    @todo Need to improve UI for the mobiles
+
+    @todo Need to adapt UI for the desktops
+*/
