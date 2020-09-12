@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import GlobalStyles from 'themes/GlobalStyles';
 import Dice from 'components/Dice/Dice';
-import Button from 'components/Button/Button';
+import { Button, RestartButton } from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
 import ScoreWrapper from 'components/ScorePanel/ScorePanel';
+import Authors from 'components/Authors/Authors';
 
 const getRandomNumber = () => Math.floor(Math.random() * 6) + 1; // Return number from 1 to 6
 
@@ -75,7 +76,7 @@ class App extends Component {
             name: '',
             is: false,
         },
-        winningScore: 100,
+        winningScore: 10,
     };
     checkWinnerName(name) {
         return this.state.winner.name === name ? true : false;
@@ -137,11 +138,37 @@ class App extends Component {
         }));
     };
 
+    restartGame = () => {
+        this.setState({
+            playerOne: {
+                name: 'playerOne',
+                currentScore: 0,
+                globalScore: 0,
+            },
+
+            playerTwo: {
+                name: 'playerTwo',
+                currentScore: 0,
+                globalScore: 0,
+            },
+
+            diceNumber: 1,
+            isPlayerOneTurn: !this.state.isPlayerOneTurn,
+            winner: {
+                name: '',
+                is: false,
+            },
+            winningScore: 10,
+        });
+    };
+
     handleHoldClick = (name) => {
         this.updateGlobalScore(name);
         this.resetCurrScore(name);
-        this.nextTurn();
         this.isWinner();
+        if (this.state.winner.is) {
+            this.nextTurn();
+        }
     };
 
     handleRollClick = (name) => {
@@ -157,7 +184,12 @@ class App extends Component {
             <>
                 <GlobalStyles />
                 <StyledWrapper>
-                    <Dice whichDiceNumber={diceNumber} />
+                    <Authors />
+                    {winner.is ? (
+                        <RestartButton onClick={() => this.restartGame()} />
+                    ) : (
+                        <Dice whichDiceNumber={diceNumber} />
+                    )}
 
                     <StyledPlayerSide rotateSide inactive={isPlayerOneTurn}>
                         <StyledButtonsWrapper disable={isPlayerOneTurn}>

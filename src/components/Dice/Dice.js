@@ -45,6 +45,7 @@ const Dice = styled.div`
     height: 70px;
     background-image: url(${({ whichDiceNumber }) => handleDiceChange(whichDiceNumber)});
     background-position: 50% 50%;
+    background-repeat: no-repeat;
     background-size: cover;
     border: 1px solid hsla(0, 0%, 0%, 35%);
     box-shadow: 4px 0px 4px 1px rgba(0, 0, 0, 0.25);
