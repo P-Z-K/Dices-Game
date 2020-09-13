@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Modal = styled.div`
+const StyledWrapper = styled.div`
     width: 100%;
     height: 100%;
     position: absolute;
@@ -12,18 +12,16 @@ const Modal = styled.div`
         makeGreen
             ? 'linear-gradient(0deg, rgba(0,0,0,1) 73%, rgba(137,235,113,0.7) 100%)'
             : 'linear-gradient(0, rgba(0, 0, 0, 1) 73%, rgba(214, 40, 40, 0.7) 100%)'};
-    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 `;
 
-const Message = styled.h1`
+const Heading = styled.h1`
     display: block;
     letter-spacing: 2px;
     text-transform: uppercase;
-    font-size: 5rem;
+    font-size: 7rem;
     -webkit-background: ${({ makeGreen }) =>
         makeGreen
             ? 'linear-gradient(90deg, rgba(14, 79, 13, 1) 0%, rgba(137, 235, 113, 1) 100%)'
@@ -37,14 +35,14 @@ const Message = styled.h1`
     -webkit-text-fill-color: transparent;
 `;
 
-const ModalWrapper = ({ winner }) => (
-    <Modal makeGreen={winner}>
-        <Message makeGreen={winner}>{winner ? 'Winner' : 'Defeated'}</Message>
-    </Modal>
+const Modal = ({ winner }) => (
+    <StyledWrapper makeGreen={winner}>
+        <Heading makeGreen={winner}>{winner ? 'Winner' : 'Loser'}</Heading>
+    </StyledWrapper>
 );
 
-ModalWrapper.propTypes = {
+Modal.propTypes = {
     winner: PropTypes.bool.isRequired,
 };
 
-export default ModalWrapper;
+export default Modal;

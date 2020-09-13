@@ -6,27 +6,35 @@ import Dice from 'components/Dice/Dice';
 import RestartIcon from 'assets/icons/restart.svg';
 
 const Button = styled.button`
-    width: 160px;
-    height: 50px;
+    width: 40%;
     border: none;
     background-color: transparent;
     font-weight: 500;
-    font-size: 1.9rem;
-    margin: 0 12px;
+    font-size: 5rem;
     letter-spacing: 1px;
-    padding-left: ${({ hold }) => (hold ? '17px' : '50px')};
-    color: #000;
+    color: #171717;
     background-image: url(${({ hold }) => (hold ? HoldIcon : RollIcon)});
     background-repeat: no-repeat;
-    background-position: 8px 50%;
-    background-size: 20%;
+    background-position: 10px 50%;
+    background-size: 50px;
+
     text-transform: uppercase;
     border-radius: 10px;
     overflow: hidden;
+    cursor: pointer;
 
     &:focus {
         outline: none;
         box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
+    }
+    &:hover {
+        box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
+    }
+
+    @media only screen and (max-width: 1400px) {
+        font-size: 3rem;
+        padding-left: 40px;
+        background-size: 40px;
     }
 `;
 

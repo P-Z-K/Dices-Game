@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import GlobalStyles from 'themes/GlobalStyles';
 import Dice from 'components/Dice/Dice';
-import { Button, RestartButton } from 'components/Button/Button';
-import Modal from 'components/Modal/Modal';
-import ScoreWrapper from 'components/ScorePanel/ScorePanel';
+import { RestartButton } from 'components/Button/Button';
 import Authors from 'components/Authors/Authors';
+import PlayerSide from 'components/PlayerSide/PlayerSide';
 
 const getRandomNumber = () => Math.floor(Math.random() * 6) + 1; // Return number from 1 to 6
 
@@ -13,47 +12,14 @@ const StyledWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: column;
     position: relative;
     background: linear-gradient(66.78deg, #fbab7e 0%, #f7ce68 81.63%);
 `;
 
-const StyledButtonsWrapper = styled.div`
-    position: absolute;
-    left: 50%;
-    margin-top: 120px;
-    transform: translateX(-50%);
-    display: flex;
-
-    ${({ disable }) =>
-        disable &&
-        css`
-            pointer-events: none;
-        `}
-`;
-
-const StyledPlayerSide = styled.div`
-    width: 100%;
-    height: 50vh;
-    position: relative;
-    transition: background-color 0.7s ease;
-
-    ${({ rotateSide }) =>
-        rotateSide &&
-        css`
-            transform: rotate(180deg);
-        `}
-
-    ${({ inactive }) =>
-        inactive &&
-        css`
-            background-color: hsla(0, 0%, 0%, 0.35);
-        `}
-`;
-
 const StyledMiddleLine = styled.div`
-    height: 4px;
-    background-color: hsla(0, 9%, 14%, 54%);
+    width: 2px;
+    height: 100%;
+    background-color: ${({ changeColour }) => (changeColour ? 'hsla(50, 84%, 51%, 1)' : 'hsla(0, 9%, 14%, 54%)')};
 `;
 
 class App extends Component {
@@ -78,9 +44,9 @@ class App extends Component {
         },
         winningScore: 10,
     };
-    checkWinnerName(name) {
+    checkWinnerName = (name) => {
         return this.state.winner.name === name ? true : false;
-    }
+    };
 
     isWinner = () => {
         setTimeout(() => {
@@ -100,7 +66,7 @@ class App extends Component {
         }, 1);
     };
 
-    nextTurn = () => this.setState({ isPlayerOneTurn: !this.state.isPlayerOneTurn });
+    nextTurn = () => this.setState((prevState) => ({ isPlayerOneTurn: !prevState.isPlayerOneTurn }));
 
     resetCurrScore = (player) => {
         this.setState((prevState) => ({
@@ -139,7 +105,7 @@ class App extends Component {
     };
 
     restartGame = () => {
-        this.setState({
+        this.setState((prevState) => ({
             playerOne: {
                 name: 'playerOne',
                 currentScore: 0,
@@ -153,22 +119,20 @@ class App extends Component {
             },
 
             diceNumber: 1,
-            isPlayerOneTurn: !this.state.isPlayerOneTurn,
+            isPlayerOneTurn: prevState.isPlayerOneTurn,
             winner: {
                 name: '',
                 is: false,
             },
             winningScore: 10,
-        });
+        }));
     };
 
     handleHoldClick = (name) => {
         this.updateGlobalScore(name);
         this.resetCurrScore(name);
         this.isWinner();
-        if (this.state.winner.is) {
-            this.nextTurn();
-        }
+        this.nextTurn();
     };
 
     handleRollClick = (name) => {
@@ -190,32 +154,29 @@ class App extends Component {
                     ) : (
                         <Dice whichDiceNumber={diceNumber} />
                     )}
+                    <PlayerSide
+                        inactive={isPlayerOneTurn}
+                        name={playerTwo.name}
+                        currentPoints={playerTwo.currentScore}
+                        globalPoints={playerTwo.globalScore}
+                        isWinner={winner.is}
+                        holdFn={this.handleHoldClick}
+                        rollFn={this.handleRollClick}
+                        checkWinnerNameFn={this.checkWinnerName}
+                    />
 
-                    <StyledPlayerSide rotateSide inactive={isPlayerOneTurn}>
-                        <StyledButtonsWrapper disable={isPlayerOneTurn}>
-                            <Button onClick={() => this.handleRollClick(playerTwo.name)}>click me</Button>
-                            <Button hold onClick={() => this.handleHoldClick(playerTwo.name)}>
-                                hold
-                            </Button>
-                        </StyledButtonsWrapper>
-                        <ScoreWrapper secondary points={playerTwo.currentScore} />
-                        <ScoreWrapper secondary points={playerTwo.globalScore} />
-                        {winner.is && <Modal winner={this.checkWinnerName(playerTwo.name)} />}
-                    </StyledPlayerSide>
+                    <StyledMiddleLine changeColour={winner.is} />
 
-                    <StyledMiddleLine />
-
-                    <StyledPlayerSide inactive={!isPlayerOneTurn}>
-                        <StyledButtonsWrapper disable={!isPlayerOneTurn}>
-                            <Button onClick={() => this.handleRollClick(playerOne.name)}>click me</Button>
-                            <Button hold onClick={() => this.handleHoldClick(playerOne.name)}>
-                                hold
-                            </Button>
-                        </StyledButtonsWrapper>
-                        <ScoreWrapper points={playerOne.currentScore} />
-                        <ScoreWrapper points={playerOne.globalScore} />
-                        {winner.is && <Modal winner={this.checkWinnerName(playerOne.name)} />}
-                    </StyledPlayerSide>
+                    <PlayerSide
+                        inactive={!isPlayerOneTurn}
+                        name={playerOne.name}
+                        currentPoints={playerOne.currentScore}
+                        globalPoints={playerOne.globalScore}
+                        isWinner={winner.is}
+                        holdFn={this.handleHoldClick}
+                        rollFn={this.handleRollClick}
+                        checkWinnerNameFn={this.checkWinnerName}
+                    />
                 </StyledWrapper>
             </>
         );
