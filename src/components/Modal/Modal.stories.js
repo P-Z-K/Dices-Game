@@ -1,10 +1,10 @@
 import React from 'react';
-import Modal from './Modal';
+import StyledWrapper from './Modal';
 
 export default {
     title: 'Example/Modal',
-    component: Modal,
+    component: StyledWrapper,
 };
 
-export const loserModal = () => <Modal />;
-export const winnerModal = () => <Modal winner />;
+export const loserModal = () => <StyledWrapper />;
+export const winnerModal = () => <StyledWrapper winner />;
