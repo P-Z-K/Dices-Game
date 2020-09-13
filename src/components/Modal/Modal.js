@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-const Modal = styled.div`
+const StyledWrapper = styled.div`
     width: 100%;
     height: 100%;
     position: absolute;
@@ -17,7 +17,7 @@ const Modal = styled.div`
     align-items: center;
 `;
 
-const Message = styled.h1`
+const Heading = styled.h1`
     display: block;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -35,14 +35,14 @@ const Message = styled.h1`
     -webkit-text-fill-color: transparent;
 `;
 
-const ModalWrapper = ({ winner }) => (
-    <Modal makeGreen={winner}>
-        <Message makeGreen={winner}>{winner ? 'Winner' : 'Defeated'}</Message>
-    </Modal>
+const Modal = ({ winner }) => (
+    <StyledWrapper makeGreen={winner}>
+        <Heading makeGreen={winner}>{winner ? 'Winner' : 'Loser'}</Heading>
+    </StyledWrapper>
 );
 
-ModalWrapper.propTypes = {
+Modal.propTypes = {
     winner: PropTypes.bool.isRequired,
 };
 
-export default ModalWrapper;
+export default Modal;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const AuthorsWrapper = styled.div`
+const StyledWrapper = styled.div`
     position: absolute;
     top: 0;
     left: 0;
@@ -17,7 +17,7 @@ const Link = styled.a`
 `;
 
 const Authors = () => (
-    <AuthorsWrapper>
+    <StyledWrapper>
         Icons made by{' '}
         <Link href="https://www.flaticon.com/authors/freepik" title="Freepik">
             Freepik{' '}
@@ -29,7 +29,7 @@ const Authors = () => (
         <Link href="https://www.flaticon.com/" title="Flaticon">
             www.flaticon.com
         </Link>
-    </AuthorsWrapper>
+    </StyledWrapper>
 );
 
 export default Authors;

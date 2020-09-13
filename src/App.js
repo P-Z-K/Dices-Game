@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import GlobalStyles from 'themes/GlobalStyles';
 import Dice from 'components/Dice/Dice';
-import { Button, RestartButton } from 'components/Button/Button';
-import Modal from 'components/Modal/Modal';
-import ScoreWrapper from 'components/ScorePanel/ScorePanel';
+import { RestartButton } from 'components/Button/Button';
 import Authors from 'components/Authors/Authors';
+import PlayerSide from 'components/PlayerSide/PlayerSide';
 
 const getRandomNumber = () => Math.floor(Math.random() * 6) + 1; // Return number from 1 to 6
 
@@ -15,57 +14,6 @@ const StyledWrapper = styled.div`
     display: flex;
     position: relative;
     background: linear-gradient(66.78deg, #fbab7e 0%, #f7ce68 81.63%);
-`;
-
-const StyledButtonsWrapper = styled.div`
-    width: 50vw;
-    height: 75px;
-    position: absolute;
-    left: 50%;
-    top: 80%;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-
-    ${({ disable }) =>
-        disable &&
-        css`
-            pointer-events: none;
-        `}
-
-    @media only screen and (max-width: 1400px) {
-        flex-direction: column;
-        justify-content: space-between;
-        height: 120px;
-    }
-`;
-
-const StyledPlayerSide = styled.div`
-    width: 50%;
-    height: 100vh;
-    position: relative;
-    transition: background-color 0.7s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    ${({ rotateSide }) =>
-        rotateSide &&
-        css`
-            transform: rotate(180deg);
-        `}
-
-    ${({ inactive }) =>
-        inactive &&
-        css`
-            background-color: hsla(0, 0%, 0%, 0.35);
-        `}
-`;
-
-const StyledPointsWrapper = styled.div`
-    margin: 30px 0;
 `;
 
 const StyledMiddleLine = styled.div`
@@ -96,9 +44,9 @@ class App extends Component {
         },
         winningScore: 10,
     };
-    checkWinnerName(name) {
+    checkWinnerName = (name) => {
         return this.state.winner.name === name ? true : false;
-    }
+    };
 
     isWinner = () => {
         setTimeout(() => {
@@ -206,43 +154,29 @@ class App extends Component {
                     ) : (
                         <Dice whichDiceNumber={diceNumber} />
                     )}
-
-                    <StyledPlayerSide inactive={isPlayerOneTurn}>
-                        <StyledButtonsWrapper disable={isPlayerOneTurn}>
-                            <Button onClick={() => this.handleRollClick(playerTwo.name)}>Roll</Button>
-                            <Button hold onClick={() => this.handleHoldClick(playerTwo.name)}>
-                                hold
-                            </Button>
-                        </StyledButtonsWrapper>
-                        <StyledPointsWrapper current>
-                            <ScoreWrapper current points={playerTwo.currentScore} />
-                        </StyledPointsWrapper>
-
-                        <StyledPointsWrapper>
-                            <ScoreWrapper points={playerTwo.globalScore} />
-                        </StyledPointsWrapper>
-
-                        {winner.is && <Modal winner={this.checkWinnerName(playerTwo.name)} />}
-                    </StyledPlayerSide>
+                    <PlayerSide
+                        inactive={isPlayerOneTurn}
+                        name={playerTwo.name}
+                        currentPoints={playerTwo.currentScore}
+                        globalPoints={playerTwo.globalScore}
+                        isWinner={winner.is}
+                        holdFn={this.handleHoldClick}
+                        rollFn={this.handleRollClick}
+                        checkWinnerNameFn={this.checkWinnerName}
+                    />
 
                     <StyledMiddleLine changeColour={winner.is} />
 
-                    <StyledPlayerSide inactive={!isPlayerOneTurn}>
-                        <StyledButtonsWrapper disable={!isPlayerOneTurn}>
-                            <Button onClick={() => this.handleRollClick(playerOne.name)}>Roll</Button>
-                            <Button hold onClick={() => this.handleHoldClick(playerOne.name)}>
-                                hold
-                            </Button>
-                        </StyledButtonsWrapper>
-                        <StyledPointsWrapper current>
-                            <ScoreWrapper current points={playerOne.currentScore} />
-                        </StyledPointsWrapper>
-
-                        <StyledPointsWrapper>
-                            <ScoreWrapper points={playerOne.globalScore} />
-                        </StyledPointsWrapper>
-                        {winner.is && <Modal winner={this.checkWinnerName(playerOne.name)} />}
-                    </StyledPlayerSide>
+                    <PlayerSide
+                        inactive={!isPlayerOneTurn}
+                        name={playerOne.name}
+                        currentPoints={playerOne.currentScore}
+                        globalPoints={playerOne.globalScore}
+                        isWinner={winner.is}
+                        holdFn={this.handleHoldClick}
+                        rollFn={this.handleRollClick}
+                        checkWinnerNameFn={this.checkWinnerName}
+                    />
                 </StyledWrapper>
             </>
         );
