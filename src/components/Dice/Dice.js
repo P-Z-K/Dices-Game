@@ -52,7 +52,7 @@ const Dice = styled.div`
     animation: ${rotate} 50s infinite linear;
     z-index: 1000;
 
-    @media only screen and (max-width: 1026px) {
+    @media only screen and (max-width: 1200px) {
         width: 90px;
         height: 90px;
     }

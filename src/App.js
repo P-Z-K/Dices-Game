@@ -34,7 +34,7 @@ const StyledButtonsWrapper = styled.div`
             pointer-events: none;
         `}
 
-    @media only screen and (max-width: 1026px) {
+    @media only screen and (max-width: 1400px) {
         flex-direction: column;
         justify-content: space-between;
         height: 120px;

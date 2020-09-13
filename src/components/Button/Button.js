@@ -31,7 +31,7 @@ const Button = styled.button`
         box-shadow: 0px 0px 15px -8px rgba(0, 0, 0, 0.75);
     }
 
-    @media only screen and (max-width: 1026px) {
+    @media only screen and (max-width: 1400px) {
         font-size: 3rem;
         padding-left: 40px;
         background-size: 40px;
