@@ -42,7 +42,7 @@ class App extends Component {
             name: '',
             is: false,
         },
-        winningScore: 10,
+        winningScore: 100,
     };
     checkWinnerName = (name) => {
         return this.state.winner.name === name ? true : false;
@@ -124,7 +124,7 @@ class App extends Component {
                 name: '',
                 is: false,
             },
-            winningScore: 10,
+            winningScore: 100,
         }));
     };
 
