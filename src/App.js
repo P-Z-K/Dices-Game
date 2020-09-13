@@ -13,30 +13,43 @@ const StyledWrapper = styled.div`
     width: 100vw;
     height: 100vh;
     display: flex;
-    flex-direction: column;
     position: relative;
     background: linear-gradient(66.78deg, #fbab7e 0%, #f7ce68 81.63%);
 `;
 
 const StyledButtonsWrapper = styled.div`
+    width: 50vw;
+    height: 75px;
     position: absolute;
     left: 50%;
-    margin-top: 120px;
+    top: 80%;
     transform: translateX(-50%);
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 
     ${({ disable }) =>
         disable &&
         css`
             pointer-events: none;
         `}
+
+    @media only screen and (max-width: 1026px) {
+        flex-direction: column;
+        justify-content: space-between;
+        height: 120px;
+    }
 `;
 
 const StyledPlayerSide = styled.div`
-    width: 100%;
-    height: 50vh;
+    width: 50%;
+    height: 100vh;
     position: relative;
     transition: background-color 0.7s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     ${({ rotateSide }) =>
         rotateSide &&
@@ -51,9 +64,14 @@ const StyledPlayerSide = styled.div`
         `}
 `;
 
+const StyledPointsWrapper = styled.div`
+    margin: 30px 0;
+`;
+
 const StyledMiddleLine = styled.div`
-    height: 4px;
-    background-color: hsla(0, 9%, 14%, 54%);
+    width: 2px;
+    height: 100%;
+    background-color: ${({ changeColour }) => (changeColour ? 'hsla(50, 84%, 51%, 1)' : 'hsla(0, 9%, 14%, 54%)')};
 `;
 
 class App extends Component {
@@ -100,7 +118,7 @@ class App extends Component {
         }, 1);
     };
 
-    nextTurn = () => this.setState({ isPlayerOneTurn: !this.state.isPlayerOneTurn });
+    nextTurn = () => this.setState((prevState) => ({ isPlayerOneTurn: !prevState.isPlayerOneTurn }));
 
     resetCurrScore = (player) => {
         this.setState((prevState) => ({
@@ -139,7 +157,7 @@ class App extends Component {
     };
 
     restartGame = () => {
-        this.setState({
+        this.setState((prevState) => ({
             playerOne: {
                 name: 'playerOne',
                 currentScore: 0,
@@ -153,22 +171,20 @@ class App extends Component {
             },
 
             diceNumber: 1,
-            isPlayerOneTurn: !this.state.isPlayerOneTurn,
+            isPlayerOneTurn: prevState.isPlayerOneTurn,
             winner: {
                 name: '',
                 is: false,
             },
             winningScore: 10,
-        });
+        }));
     };
 
     handleHoldClick = (name) => {
         this.updateGlobalScore(name);
         this.resetCurrScore(name);
         this.isWinner();
-        if (this.state.winner.is) {
-            this.nextTurn();
-        }
+        this.nextTurn();
     };
 
     handleRollClick = (name) => {
@@ -191,29 +207,40 @@ class App extends Component {
                         <Dice whichDiceNumber={diceNumber} />
                     )}
 
-                    <StyledPlayerSide rotateSide inactive={isPlayerOneTurn}>
+                    <StyledPlayerSide inactive={isPlayerOneTurn}>
                         <StyledButtonsWrapper disable={isPlayerOneTurn}>
-                            <Button onClick={() => this.handleRollClick(playerTwo.name)}>click me</Button>
+                            <Button onClick={() => this.handleRollClick(playerTwo.name)}>Roll</Button>
                             <Button hold onClick={() => this.handleHoldClick(playerTwo.name)}>
                                 hold
                             </Button>
                         </StyledButtonsWrapper>
-                        <ScoreWrapper secondary points={playerTwo.currentScore} />
-                        <ScoreWrapper secondary points={playerTwo.globalScore} />
+                        <StyledPointsWrapper current>
+                            <ScoreWrapper current points={playerTwo.currentScore} />
+                        </StyledPointsWrapper>
+
+                        <StyledPointsWrapper>
+                            <ScoreWrapper points={playerTwo.globalScore} />
+                        </StyledPointsWrapper>
+
                         {winner.is && <Modal winner={this.checkWinnerName(playerTwo.name)} />}
                     </StyledPlayerSide>
 
-                    <StyledMiddleLine />
+                    <StyledMiddleLine changeColour={winner.is} />
 
                     <StyledPlayerSide inactive={!isPlayerOneTurn}>
                         <StyledButtonsWrapper disable={!isPlayerOneTurn}>
-                            <Button onClick={() => this.handleRollClick(playerOne.name)}>click me</Button>
+                            <Button onClick={() => this.handleRollClick(playerOne.name)}>Roll</Button>
                             <Button hold onClick={() => this.handleHoldClick(playerOne.name)}>
                                 hold
                             </Button>
                         </StyledButtonsWrapper>
-                        <ScoreWrapper points={playerOne.currentScore} />
-                        <ScoreWrapper points={playerOne.globalScore} />
+                        <StyledPointsWrapper current>
+                            <ScoreWrapper current points={playerOne.currentScore} />
+                        </StyledPointsWrapper>
+
+                        <StyledPointsWrapper>
+                            <ScoreWrapper points={playerOne.globalScore} />
+                        </StyledPointsWrapper>
                         {winner.is && <Modal winner={this.checkWinnerName(playerOne.name)} />}
                     </StyledPlayerSide>
                 </StyledWrapper>
