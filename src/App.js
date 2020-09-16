@@ -44,8 +44,8 @@ class App extends Component {
         },
         winningScore: 100,
     };
-    checkWinnerName = (name) => {
-        return this.state.winner.name === name ? true : false;
+    checkWinnerName = (playerName) => {
+        return this.state.winner.name === playerName ? true : false;
     };
 
     isWinner = () => {
@@ -68,24 +68,24 @@ class App extends Component {
 
     nextTurn = () => this.setState((prevState) => ({ isPlayerOneTurn: !prevState.isPlayerOneTurn }));
 
-    resetCurrScore = (player) => {
+    resetCurrScore = (playerName) => {
         this.setState((prevState) => ({
-            [player]: {
-                ...prevState[player],
+            [playerName]: {
+                ...prevState[playerName],
                 currentScore: 0,
             },
         }));
     };
 
-    updateCurrScore = (player, value) => {
-        const playerTemp = { ...this.state[player] };
+    updateCurrScore = (playerName, value) => {
+        const playerTemp = { ...this.state[playerName] };
 
         if (value === 1) {
-            this.resetCurrScore(player);
+            this.resetCurrScore(playerName);
             this.nextTurn();
         } else {
             this.setState((prevState) => ({
-                [player]: {
+                [playerName]: {
                     ...prevState[playerTemp.name],
                     currentScore: playerTemp.currentScore + value,
                 },
@@ -93,11 +93,11 @@ class App extends Component {
         }
     };
 
-    updateGlobalScore = (player) => {
-        const playerTemp = { ...this.state[player] };
+    updateGlobalScore = (playerName) => {
+        const playerTemp = { ...this.state[playerName] };
 
         this.setState((prevState) => ({
-            [player]: {
+            [playerName]: {
                 ...prevState[playerTemp.name],
                 globalScore: playerTemp.globalScore + playerTemp.currentScore,
             },
@@ -128,18 +128,18 @@ class App extends Component {
         }));
     };
 
-    handleHoldClick = (name) => {
-        this.updateGlobalScore(name);
-        this.resetCurrScore(name);
+    handleHoldClick = (playerName) => {
+        this.updateGlobalScore(playerName);
+        this.resetCurrScore(playerName);
         this.isWinner();
         this.nextTurn();
     };
 
-    handleRollClick = (name) => {
+    handleRollClick = (playerName) => {
         const number = getRandomNumber();
         this.setState({ diceNumber: number });
 
-        this.updateCurrScore(name, number);
+        this.updateCurrScore(playerName, number);
     };
 
     render() {
