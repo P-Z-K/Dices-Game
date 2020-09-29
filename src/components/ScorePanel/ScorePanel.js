@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 const StyledWrapper = styled.div`
-    min-height: 5vw;
-    min-width: 15vw;
+    width: 100%;
+    max-width: 240px;
     padding: 10px;
     display: flex;
     justify-content: space-around;

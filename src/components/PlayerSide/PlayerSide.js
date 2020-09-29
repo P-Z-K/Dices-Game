@@ -5,7 +5,18 @@ import { Button } from 'components/Button/Button';
 import Modal from 'components/Modal/Modal';
 
 const StyledPointsWrapper = styled.div`
-    margin: 30px 0;
+    margin: 0 15px;
+    grid-column: 2 / 8;
+    grid-row: 6;
+    display: flex;
+    justify-content: center;
+    column-gap: 45px;
+
+    @media screen and (max-width: 940px) {
+        flex-direction: column;
+        row-gap: 30px;
+        align-items: center;
+    }
 `;
 
 const StyledWrapper = styled.div`
@@ -13,10 +24,10 @@ const StyledWrapper = styled.div`
     height: 100vh;
     position: relative;
     transition: background-color 0.7s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    grid-auto-rows: minmax(75px, auto);
 
     ${({ inactive }) =>
         inactive &&
@@ -26,15 +37,12 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledButtonsWrapper = styled.div`
-    width: 50vw;
-    height: 75px;
-    position: absolute;
-    left: 50%;
-    top: 80%;
-    transform: translateX(-50%);
+    margin: 0 15px;
+    grid-column: 2 / 8;
+    column-gap: 45px;
+    grid-row: 10;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    justify-content: center;
 
     ${({ disable }) =>
         disable &&
@@ -42,32 +50,36 @@ const StyledButtonsWrapper = styled.div`
             pointer-events: none;
         `}
 
-    @media only screen and (max-width: 1400px) {
+    @media screen and (max-width: 940px) {
         flex-direction: column;
-        justify-content: space-between;
-        height: 120px;
+        row-gap: 50px;
+        align-items: center;
     }
+
+    @media screen and (orientation: landscape) and (max-width: 940px) {
+        row-gap: 25px;
+        flex-direction: column;
+        align-items: center;
+    }
+
 `;
 
-const PlayerSide = ({ inactive, name, currentPoints, globalPoints, isWinner, holdFn, rollFn, checkWinnerNameFn }) => {
+const PlayerSide = ({ inactive, player, isWinner, holdFn, rollFn, checkWinnerNameFn }) => {
     return (
         <StyledWrapper inactive={inactive}>
             <StyledButtonsWrapper disable={inactive}>
-                <Button onClick={() => rollFn(name)}>Roll</Button>
-                <Button hold onClick={() => holdFn(name)}>
+                <Button onClick={() => rollFn(player.name)}>Roll</Button>
+                <Button hold onClick={() => holdFn(player.name)}>
                     hold
                 </Button>
             </StyledButtonsWrapper>
 
-            <StyledPointsWrapper current>
-                <ScorePanel current points={currentPoints} />
-            </StyledPointsWrapper>
-
             <StyledPointsWrapper>
-                <ScorePanel points={globalPoints} />
+                <ScorePanel current points={player.currentScore} />
+                <ScorePanel points={player.globalScore} />
             </StyledPointsWrapper>
 
-            {isWinner && <Modal winner={checkWinnerNameFn(name)} />}
+            {isWinner && <Modal winner={checkWinnerNameFn(player.name)} />}
         </StyledWrapper>
     );
 };

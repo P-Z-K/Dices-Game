@@ -9,8 +9,8 @@ import PlayerSide from 'components/PlayerSide/PlayerSide';
 const getRandomNumber = () => Math.floor(Math.random() * 6) + 1; // Return number from 1 to 6
 
 const StyledWrapper = styled.div`
-    width: 100vw;
     height: 100vh;
+    width: 100vw;
     display: flex;
     position: relative;
     background: linear-gradient(66.78deg, #fbab7e 0%, #f7ce68 81.63%);
@@ -19,7 +19,7 @@ const StyledWrapper = styled.div`
 const StyledMiddleLine = styled.div`
     width: 2px;
     height: 100%;
-    background-color: ${({ changeColour }) => (changeColour ? 'hsla(50, 84%, 51%, 1)' : 'hsla(0, 9%, 14%, 54%)')};
+    background-color: ${({ changeColour }) => (changeColour ? 'hsla(11, 0%, 46%)' : 'hsla(0, 9%, 14%, 54%)')};
 `;
 
 class App extends Component {
@@ -156,9 +156,7 @@ class App extends Component {
                     )}
                     <PlayerSide
                         inactive={isPlayerOneTurn}
-                        name={playerTwo.name}
-                        currentPoints={playerTwo.currentScore}
-                        globalPoints={playerTwo.globalScore}
+                        player={playerTwo}
                         isWinner={winner.is}
                         holdFn={this.handleHoldClick}
                         rollFn={this.handleRollClick}
@@ -169,9 +167,7 @@ class App extends Component {
 
                     <PlayerSide
                         inactive={!isPlayerOneTurn}
-                        name={playerOne.name}
-                        currentPoints={playerOne.currentScore}
-                        globalPoints={playerOne.globalScore}
+                        player={playerOne}
                         isWinner={winner.is}
                         holdFn={this.handleHoldClick}
                         rollFn={this.handleRollClick}

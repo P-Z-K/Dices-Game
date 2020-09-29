@@ -33,6 +33,15 @@ const Heading = styled.h1`
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    @media screen and (max-width: 700px) {
+        font-size: 5rem;
+    }
+
+    @media screen and (max-width: 450px) {
+        font-size: 3.5rem;
+        letter-spacing: 1px;
+    }
 `;
 
 const Modal = ({ winner }) => (
@@ -46,3 +55,4 @@ Modal.propTypes = {
 };
 
 export default Modal;
+

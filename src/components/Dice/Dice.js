@@ -40,9 +40,10 @@ const Dice = styled.div`
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) rotate(0);
-    width: 125px;
-    height: 125px;
+    height: 8.5vw;
+    width: 8.5vw;
+    min-height: 75px;
+    min-width: 75px;
     background-image: url(${({ whichDiceNumber }) => handleDiceChange(whichDiceNumber)});
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -52,10 +53,10 @@ const Dice = styled.div`
     animation: ${rotate} 50s infinite linear;
     z-index: 1000;
 
-    @media only screen and (max-width: 1200px) {
-        width: 90px;
-        height: 90px;
+    @media screen and (max-width: 740px) {
+        top: 62%;
     }
+
 `;
 
 Dice.propTypes = {
