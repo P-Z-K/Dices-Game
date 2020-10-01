@@ -51,12 +51,11 @@ const Dice = styled.div`
     border: 1px solid hsla(0, 0%, 0%, 35%);
     box-shadow: 4px 0px 4px 1px rgba(0, 0, 0, 0.25);
     animation: ${rotate} 50s infinite linear;
-    z-index: 1000;
+    z-index: 2;
 
     @media screen and (max-width: 740px) {
         top: 62%;
     }
-
 `;
 
 Dice.propTypes = {

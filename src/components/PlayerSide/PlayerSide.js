@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import React from 'react';
 import ScorePanel from 'components/ScorePanel/ScorePanel';
 import { Button } from 'components/Button/Button';
-import Modal from 'components/Modal/Modal';
+import Modal from 'components/Modals/Modal';
 
 const StyledPointsWrapper = styled.div`
     margin: 0 15px;
@@ -61,7 +61,6 @@ const StyledButtonsWrapper = styled.div`
         flex-direction: column;
         align-items: center;
     }
-
 `;
 
 const PlayerSide = ({ inactive, player, isWinner, holdFn, rollFn, checkWinnerNameFn }) => {

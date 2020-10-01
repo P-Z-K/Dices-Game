@@ -29,11 +29,10 @@ const Button = styled.button`
         font-size: 3rem;
     }
 
-    @media screen and (orientation: landscape) and (max-width: 940px){
+    @media screen and (orientation: landscape) and (max-width: 940px) {
         font-size: 2.5rem;
         padding: 7px 0;
     }
-
 `;
 
 const RestartButton = styled(Dice).attrs({

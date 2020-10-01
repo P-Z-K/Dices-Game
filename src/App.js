@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import GlobalStyles from 'themes/GlobalStyles';
 import Dice from 'components/Dice/Dice';
 import { RestartButton } from 'components/Button/Button';
 import Authors from 'components/Authors/Authors';
 import PlayerSide from 'components/PlayerSide/PlayerSide';
+import InstructionModal from 'components/Modals/InstructionModal';
 
 const getRandomNumber = () => Math.floor(Math.random() * 6) + 1; // Return number from 1 to 6
 
@@ -14,6 +15,12 @@ const StyledWrapper = styled.div`
     display: flex;
     position: relative;
     background: linear-gradient(66.78deg, #fbab7e 0%, #f7ce68 81.63%);
+
+    ${({ blur }) =>
+        blur &&
+        css`
+            filter: blur(2px);
+        `}
 `;
 
 const StyledMiddleLine = styled.div`
@@ -43,6 +50,7 @@ class App extends Component {
             is: false,
         },
         winningScore: 100,
+        isInstructionModalOpen: true,
     };
     checkWinnerName = (playerName) => {
         return this.state.winner.name === playerName ? true : false;
@@ -104,6 +112,12 @@ class App extends Component {
         }));
     };
 
+    exitModal = () => {
+        this.setState({
+            isInstructionModalOpen: false,
+        });
+    };
+
     restartGame = () => {
         this.setState((prevState) => ({
             playerOne: {
@@ -143,17 +157,20 @@ class App extends Component {
     };
 
     render() {
-        const { winner, playerOne, playerTwo, isPlayerOneTurn, diceNumber } = this.state;
+        const { winner, playerOne, playerTwo, isPlayerOneTurn, diceNumber, isInstructionModalOpen } = this.state;
         return (
             <>
+                {isInstructionModalOpen && <InstructionModal exitModalFn={this.exitModal} />}
                 <GlobalStyles />
-                <StyledWrapper>
+                <StyledWrapper blur={isInstructionModalOpen}>
                     <Authors />
+
                     {winner.is ? (
                         <RestartButton onClick={() => this.restartGame()} />
                     ) : (
                         <Dice whichDiceNumber={diceNumber} />
                     )}
+
                     <PlayerSide
                         inactive={isPlayerOneTurn}
                         player={playerTwo}
